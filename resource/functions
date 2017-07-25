@@ -1,0 +1,193 @@
+#coding=gbk
+#python function 的简单介绍， 每个小节后面都带有测试log打印。 现在全都注释了，需要的，可以打开。
+
+#1.function的定义 start
+#---------------说明--------------
+#函数代码块以 def 关键词开头，后接函数名和圆括号()，以冒号结尾
+#函数内容以冒号起始，并且缩进
+#return [表达式] 结束函数，选择性地返回一个值给调用方。不带表达式的return相当于返回 None。
+#---------------说明--------------
+
+def my_function():
+    print ("hello pyhton!")
+    return
+
+def my_function_add(a, b):
+    return a+b
+
+#1.function的定义 end
+
+#1.test
+#my_function()
+#print(my_function_add(1, 2))
+#1.test end
+
+#2.function的调用 start
+#---------------说明--------------
+#这个同C语言，直接函数名后跟形参
+#function_name(exp1,exp2)
+#实例参考 #1.test
+#---------------说明--------------
+#2.function的调用 end
+
+#3.参数传递 start
+#---------------说明--------------
+#a.在 python 中，类型属于对象，变量是没有类型的
+#b.在 python 中，strings, tuples, 和 numbers 是不可更改的对象，而 list,dict 等则是可以修改的对象。
+#c.必备参数
+#d.关键字参数
+#e.默认参数
+#f.不定长参数
+#---------------说明--------------
+
+#3.a start
+#在参数传递中，是没有如同c一样定义好类型之后就只能接受一种类型的值的。
+#同一个test_var既可以传递list数组，也可以传递string
+test_var = [1,2,3,4]
+test_var = "this is a different type"
+#3.a end
+
+#3.b start
+#不可变类型：变量赋值 a=5 后再赋值 a=10，这里实际是新生成一个 int 值对象 10，再让 a 指向它，而 5 被丢弃，不是改变a的值，相当于新生成了a。
+#           类似 c++ 的值传递，如 整数、字符串、元组。如fun（a），传递的只是a的值，没有影响a对象本身。比如在 fun（a）内部修改 a 的值，只是修改另一个复制的对象，不会影响 a 本身。
+
+#可变类型：变量赋值 la=[1,2,3,4] 后再赋值 la[2]=5 则是将 list la 的第三个元素值更改，本身la没有动，只是其内部的一部分值被修改了。
+#         类似 c++ 的引用传递，如 列表，字典。如 fun（la），则是将 la 真正的传过去，修改后fun外部的la也会受影响
+
+#不可变类型举例
+def ChangInt(a):
+    a = 2
+
+b = 1
+ChangInt(b)
+#print(b) #输出结果仍旧是1
+
+#可变类型举例
+
+def Changlist(list_test):
+    list_test.append(['a','b','c','d'])
+
+my_test_list = [1,2,3,4]
+Changlist(my_test_list)
+#print(my_test_list) #输出为 [1, 2, 3, 4, ['a', 'b', 'c', 'd']]
+#3.b end
+
+#3.c start
+#必备参数：必备参数须以正确的顺序传入函数。调用时的数量必须和声明时的一样。否则会语法错误
+def I_need_a_vari(str):
+    print(str)
+
+str_for_test = "testString"
+#这个调用是没问题的
+#I_need_a_vari(str_for_test)
+#这个调用会错误
+#I_need_a_vari()
+
+#3.c end
+
+#3.d start
+#关键字参数和函数调用关系紧密，函数调用使用关键字参数来确定传入的参数值。
+#使用关键字参数允许函数调用时参数的顺序与声明时不一致，因为 Python 解释器能够用参数名匹配参数值。
+#简单的说，就是传参的时候指定形参的名字，可以不考虑顺序
+
+def I_dont_consider_sequence(str1, str2, str3):
+    print("str1 + str2 + str3 is:", str1, str2, str3)
+
+#I_dont_consider_sequence(str2="123", str3="456", str1="789")
+
+#3.d end
+
+#3.e start
+#调用函数时，缺省参数的值如果没有传入，则被认为是默认值
+#这个跟必备参数是冲突的。也就说，有了这个，必备参数就可以作废了
+
+def who_is_default(name, default_age = 25):
+    print(name,"'s default age  is ", default_age)
+
+#who_is_default("Lileilei")
+
+#3.e end
+
+#3.f start
+#不定参数的声明格式如下  def functionname([formal_args,] *var_args_tuple ):
+
+#举例
+def who_knows_how_long(arg_first, *second_And_So_On):
+    print(arg_first)
+    for var in second_And_So_On:
+        print(var)
+
+#who_knows_how_long(1)
+#who_knows_how_long(1,2,3,4,5,6,7)
+
+#3.f end
+
+#3.参数传递 end
+
+
+#4.匿名参数 start
+#---------------说明--------------
+#python 使用 lambda 来创建匿名函数
+#lambda只是一个表达式，函数体比def简单很多。
+#lambda的主体是一个表达式，而不是一个代码块。仅仅能在lambda表达式中封装有限的逻辑进去。
+#lambda函数拥有自己的命名空间，且不能访问自有参数列表之外或全局命名空间里的参数。
+#虽然lambda函数看起来只能写一行，却不等同于C或C++的内联函数，后者的目的是调用小函数时不占用栈内存从而增加运行效率
+#声明形式如下 lambda [arg1 [,arg2,.....argn]]:expression
+#---------------说明--------------
+
+
+#举例：
+sum = lambda arg1, arg2: arg1 + arg2;
+#print(sum(1,2))
+#print(sum(3,4))
+
+#4.匿名参数 end
+
+#5.函数返回值
+#---------------说明--------------
+#return语句[表达式]退出函数，选择性地向调用方返回一个表达式。不带参数值的return语句返回None。
+#---------------说明--------------
+
+def fun1():
+    return 1
+
+def fun2():
+    return
+
+def fun3():
+    #justdosomething
+    aa = 1
+
+#print(fun1())
+#print(fun2())
+#print(fun3())
+
+#5.函数返回值 end
+
+#6.变量作用域 start
+#---------------说明--------------
+#一个程序的所有的变量并不是在哪个位置都可以访问的。访问权限决定于这个变量是在哪里赋值的。
+#变量的作用域决定了在哪一部分程序你可以访问哪个特定的变量名称。两种最基本的变量作用域如下： 全局变量 局部变量
+#---------------说明--------------
+
+total = 0; # 这是一个全局变量
+
+def sum_local( arg1, arg2 ):
+    #返回2个参数的和."
+    total = arg1 + arg2 # total在这里是局部变量.
+    print("函数内是局部变量 : ", total)
+    return total
+
+#调用su函数
+#sum_local( 10, 20 );
+#print("sum_local函数外是全局变量 : ", total) #输出 0，指向的是全局变量的total. sum_local并没有修改这个全局变量
+
+#全局变量想作用于函数内，函数内的调用需加global
+def sum_global(arg1, arg2):
+    global total
+    total = arg1 + arg2
+
+sum_global(20, 20)
+#print("sum_global函数外是全局变量 : ", total) #输出 40, sum_global已经修改了全局变量
+
+#6.变量作用域 end
